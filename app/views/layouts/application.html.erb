@@ -4,16 +4,13 @@
     <title>Little Esty Shop - Final</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <meta name="viewport" content="width=device-width,initial-scale=1">
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body>
     <div class="top-container">
-      <h1>Little Esty Shop - Final</h1>
+      <h1><%= link_to "Little Esty Shop - Final", root_path, style: "text-decoration: none; color: #333333;" %></h1>
       <div class="container">
         <% flash.each do |type, notice| %>
           <h5 class="text-info"><b><%= notice %></b></h5>

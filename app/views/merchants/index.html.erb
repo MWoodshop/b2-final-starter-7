@@ -1,0 +1,8 @@
+<h1>Select a Merchant:</h1>
+<ul>
+  <% @merchants.each do |merchant| %>
+    <li>
+      <%= link_to merchant.name, merchant_dashboard_index_path(merchant) %>
+    </li>
+  <% end %>
+</ul>

@@ -1,5 +1,5 @@
 <%= render partial: "shared/nav" %>
-
+<h3><%= link_to 'Discounts', merchant_discounts_path(@merchant) %></h3>
 <div class="row">
   <div class="col-sm-6 column-header">
     <p class='mr-auto'>Favorite Customers</p>
@@ -8,23 +8,21 @@
     <p class='ml-auto'>Items Ready to Ship</p>
   </div>
 </div>
-
 <div class="mr-auto col-sm-6">
   <ul>
     <% @merchant.favorite_customers.each do |customer| %>
       <section id="customer-<%= customer.id %>">
-          <li><%= customer.first_name %> <%= customer.last_name %>
+        <li><%= customer.first_name %> <%= customer.last_name %>
           - <%= customer.top_result %> Purchases</li>
       </section>
     <% end %>
   </ul>
 </div>
-
 <div class="ml-auto col-sm-6">
   <ul>
     <section id ="items_ready_to_ship">
       <p><% @merchant.ordered_items_to_ship.each do |item| %>
-            <li><%= item.name %> - Invoice #<%= link_to "#{item.invoice_ids}", "/merchants/#{@merchant.id}/invoices/#{item.invoice_ids[0]}" %>
+          <li><%= item.name %> - Invoice #<%= link_to "#{item.invoice_ids}", "/merchants/#{@merchant.id}/invoices/#{item.invoice_ids[0]}" %>
             <%= item.created_at.strftime("%A, %B %-d, %Y") %></li>
         <% end %>
       </p>

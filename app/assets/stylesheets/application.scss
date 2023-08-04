@@ -64,7 +64,7 @@
    p[class$="-auto"] {
       margin: 10px 0;
    }
-      
+
 }
 
 .admin {
@@ -77,4 +77,30 @@
     text-align: center;
     margin-right: 80px;
     margin-left: 10px
+ }
+
+ .show-table {
+   width: 100%;
+   border-collapse: collapse;
+ }
+
+ .show-table th,
+ .show-table td {
+   border: 1px solid black;
+   padding: 8px;
+   text-align: center;
+   vertical-align: center;
+ }
+
+ .show-table th {
+   background-color: #9E9E9E; /* Header Row Background Color */
+   color: white; /* Text color for header cells */
+ }
+
+ .show-table tr:nth-child(even) td {
+   background-color: #E6E6E6; /* Lighter grey for even rows */
+ }
+
+ .show-table tr:nth-child(odd) td {
+   background-color: #ffffffdb; /* Slightly darker than white for odd rows */
  }

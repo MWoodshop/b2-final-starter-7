@@ -1,0 +1,18 @@
+<%= render partial: "shared/nav" %>
+<div class="row">
+  <p class='col-12'>My Discounts</p>
+</div>
+<table class="show-table">
+  <tr>
+    <th>Discount ID</th>
+    <th>Percentage Discount</th>
+    <th>Quantity Threshold</th>
+  </tr>
+  <% @discounts.each do |discount| %>
+    <tr id="discount-<%= discount.id %>">
+      <td><%= link_to discount.id, merchant_discount_path(@merchant, discount) %></td>
+      <td><%= discount.percentage_discount %></td>
+      <td><%= discount.quantity_threshold %></td>
+    </tr>
+  <% end %>
+</table>

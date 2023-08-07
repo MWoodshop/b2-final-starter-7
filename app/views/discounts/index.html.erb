@@ -8,12 +8,15 @@
     <th>Discount ID</th>
     <th>Percentage Discount</th>
     <th>Quantity Threshold</th>
+    <th>Modify</th>
   </tr>
   <% @discounts.each do |discount| %>
     <tr id="discount-<%= discount.id %>">
       <td><%= link_to discount.id, merchant_discount_path(@merchant, discount) %></td>
       <td><%= discount.percentage_discount %></td>
       <td><%= discount.quantity_threshold %></td>
+      <td>
+        <%= button_to 'Delete', merchant_discount_path(@merchant, discount), method: :delete, data: { confirm: 'Are you sure?' } %></td>
     </tr>
   <% end %>
 </table>

@@ -117,4 +117,29 @@ RSpec.describe 'discount index' do
     expect(page).to have_content('Percentage discount is not a number')
     expect(page).to have_content('Quantity threshold is not a number')
   end
+
+  # User Story 3: Merchant Bulk Discount Delete
+
+  # As a merchant
+  # When I visit my bulk discounts index
+  # Then next to each bulk discount I see a button to delete it
+  # When I click this button
+  # Then I am redirected back to the bulk discounts index page
+  # And I no longer see the discount listed
+  it 'allows me to delete a discount' do
+    visit merchant_discounts_path(@merchant1)
+    expect(current_path).to eq(merchant_discounts_path(@merchant1))
+    click_link 'Create New Discount'
+
+    fill_in 'discount[percentage_discount]', with: 90
+    fill_in 'discount[quantity_threshold]', with: 9
+    click_button 'Submit'
+    expect(current_path).to eq(merchant_discounts_path(@merchant1))
+    within('table.show-table tr:last-child') do
+      expect(page).to have_button('Delete')
+      click_button 'Delete'
+    end
+    expect(current_path).to eq(merchant_discounts_path(@merchant1))
+    expect(page).to have_content('Discount was successfully deleted.')
+  end
 end

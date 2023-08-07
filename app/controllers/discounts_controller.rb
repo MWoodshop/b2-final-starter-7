@@ -1,8 +1,10 @@
 class DiscountsController < ApplicationController
   before_action :set_merchant
-  before_action :set_discount, only: [:show]
+  before_action :set_discount, only: %i[show destroy]
 
   def index
+    @merchant = Merchant.find(params[:merchant_id])
+
     @discounts = @merchant.discounts
   end
 
@@ -18,6 +20,12 @@ class DiscountsController < ApplicationController
       flash.now[:error] = @discount.errors.full_messages.to_sentence
       render :new
     end
+  end
+
+  def destroy
+    @discount = @merchant.discounts.find(params[:id])
+    @discount.destroy
+    redirect_to merchant_discounts_path(@merchant), notice: 'Discount was successfully deleted.'
   end
 
   private

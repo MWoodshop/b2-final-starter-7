@@ -70,4 +70,51 @@ RSpec.describe 'discount index' do
       expect(page).to have_link(@discount_1.id.to_s, href: merchant_discount_path(@merchant1, @discount_1))
     end
   end
+
+  # User Story 2:
+  # Merchant Bulk Discount Create
+
+  # As a merchant
+  # When I visit my bulk discounts index
+  # Then I see a link to create a new discount
+  # When I click this link
+  # Then I am taken to a new page where I see a form to add a new bulk discount
+  # When I fill in the form with valid data
+  # Then I am redirected back to the bulk discount index
+  # And I see my new bulk discount listed
+
+  it 'allows me to create a new discount - happy path' do
+    visit merchant_discounts_path(@merchant1)
+    expect(current_path).to eq(merchant_discounts_path(@merchant1))
+    expect(page).to have_link('Create New Discount', href: new_merchant_discount_path(@merchant1))
+    click_link 'Create New Discount'
+
+    expect(current_path).to eq(new_merchant_discount_path(@merchant1))
+    expect(page).to have_selector('form')
+    fill_in 'discount[percentage_discount]', with: 90
+    fill_in 'discount[quantity_threshold]', with: 9
+    click_button 'Submit'
+    expect(current_path).to eq(merchant_discounts_path(@merchant1))
+    expect(page).to have_content('Discount was successfully created.')
+    within('table.show-table tr:last-child') do
+      expect(page).to have_content('90')
+      expect(page).to have_content('9')
+    end
+  end
+
+  it 'allows me to create a new discount - sad path' do
+    visit merchant_discounts_path(@merchant1)
+    expect(current_path).to eq(merchant_discounts_path(@merchant1))
+    expect(page).to have_link('Create New Discount', href: new_merchant_discount_path(@merchant1))
+    click_link 'Create New Discount'
+
+    expect(current_path).to eq(new_merchant_discount_path(@merchant1))
+    expect(page).to have_selector('form')
+    click_button 'Submit'
+    expect(page).to have_content("Percentage discount can't be blank")
+    fill_in 'discount[percentage_discount]', with: 'aaa'
+    fill_in 'discount[quantity_threshold]', with: 'bbb'
+    expect(page).to have_content('Percentage discount is not a number')
+    expect(page).to have_content('Quantity threshold is not a number')
+  end
 end

@@ -142,4 +142,17 @@ RSpec.describe 'discount index' do
     expect(current_path).to eq(merchant_discounts_path(@merchant1))
     expect(page).to have_content('Discount was successfully deleted.')
   end
+
+  # User Story 4: Merchant Bulk Discount Show
+
+  # As a merchant
+  # When I visit my bulk discount show page
+  # Then I see the bulk discount's quantity threshold and percentage discount
+  it 'has a show page for each discount' do
+    visit merchant_discounts_path(@merchant1)
+    expect(current_path).to eq(merchant_discounts_path(@merchant1))
+    expect(page).to have_link(@discount_1.id.to_s, href: merchant_discount_path(@merchant1, @discount_1))
+    click_link @discount_1.id.to_s
+    expect(current_path).to eq(merchant_discount_path(@merchant1, @discount_1))
+  end
 end

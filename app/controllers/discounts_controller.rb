@@ -22,6 +22,8 @@ class DiscountsController < ApplicationController
     end
   end
 
+  def show; end
+
   def destroy
     @discount = @merchant.discounts.find(params[:id])
     @discount.destroy

@@ -1,2 +1,2 @@
 <%= render partial: "shared/nav" %>
-<%= render partial: 'form', locals: { merchant: @merchant } %>
+<%= render partial: 'form', locals: { merchant: @merchant, discount: @discount || @merchant.discounts.new } %>

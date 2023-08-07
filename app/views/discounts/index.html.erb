@@ -16,7 +16,7 @@
       <td><%= discount.percentage_discount %></td>
       <td><%= discount.quantity_threshold %></td>
       <td>
-        <%= button_to 'Delete', merchant_discount_path(@merchant, discount), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%= button_to 'Delete', merchant_discount_path(@merchant, discount), method: :delete, class: "btn btn-primary" %></td>
     </tr>
   <% end %>
 </table>

@@ -1,22 +1,21 @@
 <%= render partial: "shared/nav" %>
-
 <body>
   <div class="row">
     <p class='col-12'>Invoice #<%= @invoice.id %></p>
   </div>
-
   <div id="current-invoice-status">
     <strong>Status: </strong><%= @invoice.status %>
   </div>
   <br>
-
   <p> Created on: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %></p>
-  <p>Total Revenue: <%= @invoice.total_revenue %></p>
-
-
-  <h4>Customer:</h4>
+  <div id="total-revenue-section">
+    <p>Total Revenue: <%= @invoice.total_revenue %></p>
+    <h4>Customer:</h4>
     <%= @customer.first_name %> <%= @customer.last_name %><br>
-  <br>
+    <br>
+    <h4>Total Revenue (Without Discounts): <%= number_with_precision(@invoice.total_revenue_in_dollars, precision: 2) %></h4>
+    <h4>Total Revenue (With Discounts): <%= number_with_precision(@invoice.total_discounted_revenue_in_dollars, precision: 2) %></h4>
+  </div>
   <br>
   <h4>Items on this Invoice:</h4>
   <table class="table">
@@ -28,24 +27,22 @@
         <th class="th1">Status</th>
       </tr>
     </thead>
-
     <tbody>
       <% @invoice.invoice_items.each do |i| %>
         <section id="the-status-<%= i.id %>">
           <tr class="tr">
             <td style="text-align:center"><%= i.item.name %></td>
             <td style="text-align:center"><%= i.quantity %></td>
-            <td style="text-align:center">$<%= i.unit_price %></td>
+            <td style="text-align:center">$<%= number_with_precision(i.unit_price/100.00, precision: 2) %></td>
             <td style="text-align:center">
               <%= form_with model: @invoice, url: merchant_invoice_path(@merchant, @invoice), method: :patch, local: true do |f| %>
                 <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
                 <%= f.submit 'Update Invoice' %>
               <% end %>
-              </td>
+            </td>
           </tr>
         </section>
       <% end %>
     </tbody>
   </table>
-
 </body>

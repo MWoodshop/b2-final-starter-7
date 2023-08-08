@@ -1,5 +1,25 @@
 <%= render partial: "shared/nav" %>
-<h3><%= link_to 'Create New Discount', new_merchant_discount_path(@merchant) %></h3>
+<div class="header-section">
+  <h3 class="discount-link"><%= link_to 'Create New Discount', new_merchant_discount_path(@merchant) %></h3>
+  <div class="holidays-section">
+    <% if @error_message %>
+      <p class="error-message"><%= @error_message %></p>
+    <% end %>
+    <div class="holidays-wrapper">
+      <h3>Upcoming Holidays in the USA:</h3>
+      <div class="holidays">
+        <% if defined?(@next_three_holidays) %>
+          <% @next_three_holidays.each do |holiday| %>
+            <div class="holiday">
+              <h3><%= holiday['name'] %></h3>
+              <p>Date: <%= holiday['date'] %></p>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row">
   <p class='col-12'>My Discounts</p>
 </div>

@@ -104,3 +104,30 @@
  .show-table tr:nth-child(odd) td {
    background-color: #ffffffdb; /* Slightly darker than white for odd rows */
  }
+
+ /* Holidays */
+ .header-section {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   padding: 0 20px;
+ }
+
+ .holidays-section {
+   display: flex;
+   justify-content: flex-end;
+ }
+
+ .holidays-wrapper {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+ }
+
+ .holidays {
+   display: flex;
+   align-items: center;
+   gap: 20px;
+ }
+
+

@@ -1,47 +1,49 @@
 <%= render partial: "shared/adminnav" %>
-
 <body>
   <div class="row">
     <p class='col-12'>Invoice #<%= @invoice.id %></p>
   </div>
-
   <strong>Status: </strong>
-    <section id="status-update-<%= @invoice.id %>">
-      <%= form_with model: @invoice, url: admin_invoice_path(@invoice), method: :patch do |f| %>
-        <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
-        <%= f.submit 'Update Invoice' %>
+  <section id="status-update-<%= @invoice.id %>">
+    <%= form_with model: @invoice, url: admin_invoice_path(@invoice), method: :patch do |f| %>
+      <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
+      <%= f.submit 'Update Invoice' %>
     </section>
-      <% end %>
+  <% end %>
   <p>Created on: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %>
-  <p>Total Revenue: <%= number_to_currency(@invoice.total_revenue) %>
-
-  <h4>Customer:</h4>
-    <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %><br>
-    <%= @invoice.customer.address %><br>
-    <%= @invoice.customer.city %>, <%= @invoice.customer.state %> <%= @invoice.customer.zip %><br>
-  <br>
-  <br>
-  <h4>Items on this Invoice:</h4>
-  <table class="table">
-    <thead>
-      <tr class="tr">
-        <th class="th1">Item Name</th>
-        <th class="th1">Quantity</th>
-        <th class="th1">Unit Price</th>
-        <th class="th1">Status</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @invoice.invoice_items.each do |i| %>
-        <tr class="tr">
-          <td style="text-align:center"><%= i.item.name %></td>
-          <td style="text-align:center"><%= i.quantity %></td>
-          <td style="text-align:center"><%= number_to_currency(i.unit_price) %></td>
-          <td style="text-align:center"><%= i.status%></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-</body>
+    <p>Total Revenue Before Discounts: <%= number_to_currency(@invoice.total_revenue) %>
+      <p>Total Revenue After Discounts: <%= number_to_currency(@invoice.total_discounted_revenue) %>
+        <h4>Customer:</h4>
+        <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %><br>
+        <%= @invoice.customer.address %><br>
+        <%= @invoice.customer.city %>, <%= @invoice.customer.state %> <%= @invoice.customer.zip %><br>
+        <br>
+        <br>
+        <h4>Items on this Invoice:</h4>
+        <table class="table">
+          <thead>
+            <tr class="tr">
+              <th class="th1">Item Name</th>
+              <th class="th1">Quantity</th>
+              <th class="th1">Unit Price</th>
+              <th class="th1">Total Before Discounts</th>
+              <th class="th1">Total After Discounts</th>
+              <th class="th1">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @invoice.invoice_items.each do |i| %>
+              <tr class="tr">
+                <td style="text-align:center"><%= i.item.name %></td>
+                <td style="text-align:center"><%= i.quantity %></td>
+                <td style="text-align:center"><%= number_to_currency(i.unit_price) %></td>
+                <td style="text-align:center"><%= number_to_currency((i.total_before_discounts * 100)) %></td>
+                <td style="text-align:center">
+                  <%= number_to_currency(i.total_after_discounts) %>
+                </td>
+                <td style="text-align:center"><%= i.status%></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </body>

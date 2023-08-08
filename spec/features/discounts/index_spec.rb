@@ -113,3 +113,38 @@ RSpec.describe 'discount index' do
     expect(current_path).to eq(merchant_discount_path(@merchant1, @discount_1))
   end
 end
+
+# User Story 9: Holidays API
+
+# As a merchant
+# When I visit the discounts index page
+# I see a section with a header of "Upcoming Holidays"
+# In this section the name and date of the next 3 upcoming US holidays are listed.
+# Use the Next Public Holidays Endpoint in the [Nager.Date API](https://date.nager.at/swagger/index.html)
+describe 'APIs' do
+  let(:mocked_response) do
+    double(success?: true,
+           body: '[{"name": "Holiday 1", "date": "2023-08-09"}, {"name": "Holiday 2", "date": "2023-09-09"}, {"name": "Holiday 3", "date": "2023-10-09"}]')
+  end
+
+  before do
+    load_test_data
+
+    allow(HTTParty).to receive(:get).and_return(mocked_response)
+  end
+
+  it 'shows the next 3 upcoming holidays names and dates or an error message' do
+    visit merchant_discounts_path(@merchant1)
+
+    if page.has_content?('Upcoming Holidays in the USA')
+      expect(page).to have_content('Holiday 1')
+      expect(page).to have_content('2023-08-09')
+      expect(page).to have_content('Holiday 2')
+      expect(page).to have_content('2023-09-09')
+      expect(page).to have_content('Holiday 3')
+      expect(page).to have_content('2023-10-09')
+    else
+      expect(page).to have_content('Error fetching next public holidays:')
+    end
+  end
+end

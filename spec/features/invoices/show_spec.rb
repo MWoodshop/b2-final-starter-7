@@ -134,4 +134,16 @@ RSpec.describe 'invoices show' do
       expect(@invoice_5.total_revenue_in_dollars).to eq(@invoice_5.total_discounted_revenue_in_dollars)
     end
   end
+
+  # 7: Merchant Invoice Show Page: Link to applied discounts
+
+  # As a merchant
+  # When I visit my merchant invoice show page
+  # Next to each invoice item I see a link to the show page for the bulk discount that was applied (if any)
+  it 'shows a link to the applied discount if there is one' do
+    visit merchant_invoice_path(@merchant1, @invoice_1)
+    within('tr.tr', text: @item_8.name) do
+      expect(page).to have_link('Discount', href: merchant_discount_path(@merchant1, @discount_1))
+    end
+  end
 end

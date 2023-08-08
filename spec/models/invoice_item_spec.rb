@@ -78,5 +78,9 @@ RSpec.describe InvoiceItem, type: :model do
     it '#total_after_discounts' do
       expect(@invoice_item.total_after_discounts).to eq(90.0)
     end
+
+    it '#total_before_discounts_in_dollars' do
+      expect(@invoice_item.total_before_discounts_in_dollars).to eq(10_000.0)
+    end
   end
 end

@@ -23,6 +23,10 @@ class InvoiceItem < ApplicationRecord
     unit_price * quantity / 100
   end
 
+  def total_before_discounts_in_dollars
+    unit_price * quantity
+  end
+
   def total_after_discounts
     revenue / 100.0
   end

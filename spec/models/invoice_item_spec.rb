@@ -7,6 +7,7 @@ RSpec.describe InvoiceItem, type: :model do
     it { should validate_presence_of :quantity }
     it { should validate_presence_of :unit_price }
     it { should validate_presence_of :status }
+    it { should define_enum_for(:status).with_values(%i[pending packaged shipped]) }
   end
   describe 'relationships' do
     it { should belong_to :invoice }
@@ -68,6 +69,14 @@ RSpec.describe InvoiceItem, type: :model do
 
     it '#revenue' do
       expect(@invoice_item.revenue).to eq(9000.0)
+    end
+
+    it '#total_before_discounts' do
+      expect(@invoice_item.total_before_discounts).to eq(100.0)
+    end
+
+    it '#total_after_discounts' do
+      expect(@invoice_item.total_after_discounts).to eq(90.0)
     end
   end
 end

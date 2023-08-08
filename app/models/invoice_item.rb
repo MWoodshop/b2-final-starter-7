@@ -19,6 +19,14 @@ class InvoiceItem < ApplicationRecord
     unit_price / 100.0
   end
 
+  def total_before_discounts
+    unit_price * quantity / 100
+  end
+
+  def total_after_discounts
+    revenue / 100.0
+  end
+
   def applicable_discount
     item.merchant.discounts
         .where('quantity_threshold <= ?', quantity)

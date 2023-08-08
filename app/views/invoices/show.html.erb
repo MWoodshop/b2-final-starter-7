@@ -24,6 +24,9 @@
         <th class="th1">Item Name</th>
         <th class="th1">Quantity</th>
         <th class="th1">Unit Price</th>
+        <th class="th1">Total Before Discounts</th>
+        <th class="th1">Discounts</th>
+        <th class="th1">Total After Discounts</th>
         <th class="th1">Status</th>
       </tr>
     </thead>
@@ -33,7 +36,19 @@
           <tr class="tr">
             <td style="text-align:center"><%= i.item.name %></td>
             <td style="text-align:center"><%= i.quantity %></td>
-            <td style="text-align:center">$<%= number_with_precision(i.unit_price/100.00, precision: 2) %></td>
+            <td style="text-align:center">$<%= number_with_precision(i.unit_price_in_dollars, precision: 2) %></td>
+            <td style="text-align:center">$<%= number_with_precision(i.total_before_discounts, precision: 2) %></td>
+            <td style="text-align:center">
+              <% discount = i.applicable_discount %>
+              <% if discount %>
+                <%= link_to "Discount (#{discount.percentage_discount}%)", merchant_discount_path(@merchant, discount) %>
+              <% else %>
+                No Discount
+              <% end %>
+            </td>
+            <td style="text-align:center">
+              $<%= number_with_precision(i.total_after_discounts, precision: 2) %>
+            </td>
             <td style="text-align:center">
               <%= form_with model: @invoice, url: merchant_invoice_path(@merchant, @invoice), method: :patch, local: true do |f| %>
                 <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
